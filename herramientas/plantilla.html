@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CAUDINOTICIAS en audio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+html,body{margin:0}
+[hidden]{display:none!important}
+/* Una columna: franja de reproducción fija arriba (un toque para escuchar) y la lista de noticias con su minuto debajo. */
+:root{
+  --bg:#F3F6F2; --card:#FFFFFF; --fg:#1C2A23; --muted:#5D6B63; --line:#DCE5DE;
+  --verde:#143D2F; --verde2:#1E5A45; --oro:#C99A1A; --menta:#E3EFE6; --activo:#FFF6DA; --sobre-verde:#FFFFFF;
+  --f-display:"Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body:"Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1814; --card:#15221C; --fg:#E5EEE8; --muted:#9DB0A5; --line:#24352C;
+  --verde:#8CC9A2; --verde2:#6FB58A; --oro:#F0C14E; --menta:#1B2E25; --activo:#2B2A1A; --sobre-verde:#0E1814; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1814; --card:#15221C; --fg:#E5EEE8; --muted:#9DB0A5; --line:#24352C;
+  --verde:#8CC9A2; --verde2:#6FB58A; --oro:#F0C14E; --menta:#1B2E25; --activo:#2B2A1A; --sobre-verde:#0E1814; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);line-height:1.5;font-size:16px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 32px}
+main{max-width:600px;margin:0 auto;display:grid;gap:14px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.marca{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--verde)}
+.marca span{color:var(--oro)}
+.marca small{font-weight:500;font-size:.85rem;color:var(--muted)}
+.fecha{font-size:.85rem;font-weight:500;color:var(--muted);background:var(--menta);padding:4px 12px;border-radius:999px}
+
+.player{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px;
+  position:sticky;top:max(8px,env(safe-area-inset-top,0px));z-index:5}
+.fila{display:flex;align-items:center;gap:14px}
+.info{min-width:0;flex:1}
+.seccion{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--verde2)}
+.titulo{font-family:var(--f-display);font-weight:600;font-size:1.02rem;line-height:1.3;margin:0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+.play{width:60px;height:60px;flex:none;border-radius:50%;background:var(--verde);color:var(--sobre-verde);display:grid;place-items:center}
+.play svg{width:28px;height:28px}
+.ctrl{display:flex;gap:8px;flex:none}
+.redondo{width:42px;height:42px;border-radius:50%;background:var(--menta);color:var(--verde);display:grid;place-items:center}
+.redondo svg{width:20px;height:20px}
+svg{fill:currentColor}
+.barra{height:8px;background:var(--menta);border-radius:999px;overflow:hidden;cursor:pointer;touch-action:none}
+.barra i{display:block;height:100%;width:0;background:var(--oro);border-radius:999px}
+.tiempos{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;justify-content:space-between}
+
+h2{font-size:.85rem;font-weight:600;color:var(--muted);margin:4px 0 0;letter-spacing:.05em;text-transform:uppercase}
+ol{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+li + li{border-top:1px solid var(--line)}
+li button{width:100%;text-align:left;display:grid;grid-template-columns:3.2em 1fr;gap:12px;padding:14px 16px;align-items:start}
+li .m{font-size:.85rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+li .t{min-width:0;font-size:1.02rem;line-height:1.4}
+li .s{display:block;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--verde2);margin-bottom:2px}
+li[aria-current="true"] button{background:var(--activo)}
+li[aria-current="true"] .m{color:var(--oro)}
+.dias{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.dias a{flex:none;font-size:.78rem;font-weight:500;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);text-decoration:none;white-space:nowrap}
+.dias a[aria-current="true"]{background:var(--verde);border-color:var(--verde);color:var(--sobre-verde)}
+.abrir{display:flex;align-items:center;gap:6px;background:var(--activo);border:1px solid var(--oro);border-radius:10px;padding:5px 8px}
+.abrir p{margin:0;flex:1;min-width:0;font-size:.74rem;line-height:1.2}
+.abrir a{font-size:.7rem;font-weight:600;padding:4px 9px;border-radius:999px;background:var(--verde);color:var(--sobre-verde);text-decoration:none;white-space:nowrap}
+.pie{font-size:.75rem;color:var(--muted);text-align:center;margin:0}
+.retomar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--activo);border-radius:12px;padding:10px 12px}
+.retomar p{margin:0;flex:1;min-width:10em;font-size:.92rem;font-weight:600}
+.retomar button{font-size:.85rem;font-weight:600;padding:8px 14px;border-radius:999px}
+.retomar .si{background:var(--verde);color:var(--sobre-verde)}
+.retomar .no{border:1px solid var(--line);color:var(--muted)}
+</style>
+<link rel="icon" href="portada.jpg">
+<link rel="alternate" type="application/rss+xml" title="CAUDINOTICIAS en audio" href="feed.xml">
+<meta property="og:title" content="CAUDINOTICIAS en audio">
+<meta property="og:image" content="portada.jpg">
+
+
+</head>
+<body>
+<main>
+  <header>
+    <div class="marca">CAUDI<span>NOTICIAS</span> <small>en audio</small></div>
+    <div class="fecha" id="fecha"></div>
+  </header>
+
+  <div class="abrir" id="abrir" hidden>
+    <p><b>¿Pantalla apagada?</b> Ábrelo en Chrome</p>
+    <a id="abrirChrome" href="#" target="_blank" rel="noopener">Abrir</a>
+    <a id="copiar" href="#" style="background:var(--menta);color:var(--verde)">Copiar enlace</a>
+  </div>
+  <section class="player" aria-label="Reproductor">
+    <div class="fila">
+      <button class="play" id="play" aria-label="Escuchar"><svg viewBox="0 0 24 24" id="ico"><path d="M8 5v14l11-7z"/></svg></button>
+      <div class="info">
+        <div class="seccion" id="sec">Toca para escuchar</div>
+        <p class="titulo" id="tit"></p>
+      </div>
+      <div class="ctrl">
+        <button class="redondo" id="ant" aria-label="Noticia anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
+        <button class="redondo" id="sig" aria-label="Noticia siguiente"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+      </div>
+    </div>
+    <div class="barra" id="barra" aria-label="Avance"><i id="avance"></i></div>
+    <div class="tiempos"><span id="t1">0:00</span><span id="t2"></span></div>
+    <div class="retomar" id="retomar" hidden>
+      <p id="retomarTxt"></p>
+      <button class="si" id="seguir">Continuar</button>
+      <button class="no" id="inicio">Empezar de nuevo</button>
+    </div>
+  </section>
+
+  <h2>En esta edición</h2>
+  <ol id="lista"></ol>
+  <h2>Ediciones anteriores</h2>
+  <nav class="dias" id="dias" aria-label="Ediciones"></nav>
+  <p class="pie">SIMFA – Sistema de Monitoreo de Fuentes Abiertas<br>Desarrollado por My. PNP Jorge Luis Jiménez Aguilar con asistencia de IA<br>Uso referencial: verificar en la fuente.</p>
+</main>
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+const D = __DATOS__;
+const $ = id => document.getElementById(id);
+const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+const A = $("audio");
+let actual = -1;
+const claves = Object.keys(D.dias).sort().reverse();
+let F = claves[0], E = D.dias[F], C = E.capitulos;
+let listo = false, pendiente = null, urlBlob = null, pedido = 0;
+function cargar() {
+  const mio = ++pedido; listo = false; pendiente = null;
+  A.src = E.audio; A.load();                       // empieza a sonar de inmediato, de corrido
+  $("t2").textContent = "cargando…";
+  fetch(E.audio).then(r => { if (!r.ok) throw 0; return r.blob(); }).then(b => {
+    if (mio !== pedido) return;
+    const t = pendiente ?? A.currentTime, sonaba = !A.paused;
+    if (urlBlob) URL.revokeObjectURL(urlBlob);
+    urlBlob = URL.createObjectURL(b);
+    A.src = urlBlob; listo = true;
+    A.addEventListener("loadedmetadata", () => { A.currentTime = t; pendiente = null; pintar(); if (sonaba) A.play().catch(() => {}); }, { once: true });
+  }).catch(() => { listo = true; });
+}
+function saltar(t) {
+  t = Math.max(0, Math.min(dur() - 0.5, t));
+  if (!listo) { pendiente = t; actual = -1; pintarEn(t); return; }
+  A.currentTime = t; pintar();
+}
+function pintarEn(t) { const k = cap(t); actual = k; $("sec").textContent = C[k].sec; $("tit").textContent = C[k].titulo;
+  document.querySelectorAll("#lista li").forEach((li, i) => li.setAttribute("aria-current", i === k)); }
+function elegir() {
+  const h = location.hash.replace("#d", "") || new URLSearchParams(location.search).get("d") || "";
+  F = D.dias[h] ? h : claves[0]; E = D.dias[F]; C = E.capitulos; actual = -1;
+  cargar();
+  $("fecha").textContent = E.fecha.replace(/ de \d{4}$/, "");
+  $("lista").innerHTML = C.map((c, i) =>
+    `<li><button data-i="${i}"><span class="m">${mmss(c.inicio)}</span><span class="t"><span class="s">${esc(c.sec)}</span>${esc(c.titulo)}</span></button></li>`).join("");
+  document.querySelectorAll("#lista button").forEach(b => b.onclick = () => ir(+b.dataset.i));
+  $("dias").innerHTML = claves.map(k => `<a href="#d${k}" aria-current="${k === F}">${esc(D.dias[k].corta)}</a>`).join("");
+  pintar();
+  ofrecer();
+}
+// avance guardado solo en este teléfono, por edición
+const clave = () => "cn-avance-" + F;
+function ofrecer() {
+  $("retomar").hidden = true;
+  let t = 0; try { t = +localStorage.getItem(clave()) || 0; } catch (e) {}
+  if (t > 10 && t < E.duracion - 30) {
+    $("retomarTxt").textContent = `¿Continuar desde ${mmss(t)}?`;
+    $("retomar").hidden = false;
+    $("seguir").onclick = () => { $("retomar").hidden = true; saltar(t); A.play().catch(() => {}); };
+    $("inicio").onclick = () => { $("retomar").hidden = true; saltar(0); A.play().catch(() => {}); };
+  }
+}
+let ultimoGuardado = 0;
+A.addEventListener("timeupdate", () => {
+  if (pendiente !== null || Math.abs(A.currentTime - ultimoGuardado) < 3) return;
+  ultimoGuardado = A.currentTime;
+  try { localStorage.setItem(clave(), String(A.currentTime)); } catch (e) {}
+});
+A.addEventListener("play", () => { $("retomar").hidden = true; });
+const mmss = s => { s = Math.max(0, Math.floor(s)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+const dur = () => (isFinite(A.duration) && A.duration) || E.duracion;
+const cap = t => { let k = 0; C.forEach((c, i) => { if (t + 0.3 >= c.inicio) k = i; }); return k; };
+
+
+function pintar() {
+  if (pendiente !== null) return;
+  const t = A.currentTime, k = cap(t);
+  $("avance").style.width = (100 * t / dur()) + "%";
+  $("t1").textContent = mmss(t); $("t2").textContent = "-" + mmss(dur() - t);
+  if (k !== actual) {
+    actual = k; $("sec").textContent = C[k].sec; $("tit").textContent = C[k].titulo;
+    document.querySelectorAll("#lista li").forEach((li, i) => li.setAttribute("aria-current", i === k));
+    if ("mediaSession" in navigator) navigator.mediaSession.metadata = new MediaMetadata({
+      title: C[k].titulo, artist: "CAUDINOTICIAS · " + C[k].sec, album: E.fecha,
+      artwork: [{ src: new URL("portada.jpg", location.href).href, sizes: "1400x1400", type: "image/jpeg" }] });
+  }
+}
+function icono() {
+  const on = !A.paused;
+  $("ico").innerHTML = on ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+  $("play").setAttribute("aria-label", on ? "Pausar" : "Escuchar");
+}
+function ir(k) { k = Math.max(0, Math.min(C.length - 1, k)); saltar(C[k].inicio); if (A.paused) A.play().catch(() => {}); }
+
+$("play").onclick = () => A.paused ? A.play().catch(() => {}) : A.pause();
+const ahora = () => pendiente ?? A.currentTime;
+$("ant").onclick = () => ir(ahora() - C[cap(ahora())].inicio > 3 ? cap(ahora()) : cap(ahora()) - 1);
+$("sig").onclick = () => ir(cap(ahora()) + 1);
+$("barra").onclick = e => { const r = e.currentTarget.getBoundingClientRect(); saltar(dur() * (e.clientX - r.left) / r.width); };
+A.addEventListener("timeupdate", pintar); A.addEventListener("play", icono); A.addEventListener("pause", icono);
+A.addEventListener("loadedmetadata", pintar);
+if ("mediaSession" in navigator) {
+  navigator.mediaSession.setActionHandler("previoustrack", () => $("ant").onclick());
+  navigator.mediaSession.setActionHandler("nexttrack", () => $("sig").onclick());
+  const ms = (a, f) => { try { navigator.mediaSession.setActionHandler(a, f); } catch (e) {} };
+  ms("play", () => A.play().catch(() => {}));
+  ms("pause", () => A.pause());
+  ms("seekbackward", d => saltar(A.currentTime - ((d && d.seekOffset) || 15)));
+  ms("seekforward", d => saltar(A.currentTime + ((d && d.seekOffset) || 15)));
+  ms("seekto", d => saltar(d.seekTime));
+  const posicion = () => { try { if (isFinite(A.duration)) navigator.mediaSession.setPositionState({ duration: A.duration, position: Math.min(A.currentTime, A.duration), playbackRate: A.playbackRate }); } catch (e) {} };
+  A.addEventListener("loadedmetadata", posicion); A.addEventListener("seeked", posicion); A.addEventListener("play", posicion);
+  A.addEventListener("play", () => { navigator.mediaSession.playbackState = "playing"; });
+  A.addEventListener("pause", () => { navigator.mediaSession.playbackState = "paused"; });
+}
+window.addEventListener("hashchange", elegir);
+elegir();
+
+// navegador interno (visor de PDF, apps de mensajería o de Claude): pasar solo al navegador del teléfono
+(function () {
+  const ua = navigator.userAgent || "";
+  const android = /Android/i.test(ua);
+  const interno = (android && /; wv\)/.test(ua)) || /FBAN|FBAV|Instagram|Line\/|WhatsApp|GSA\//i.test(ua);
+  if (!interno || !android) return;
+  const destino = location.origin + location.pathname + "?d=" + F;      // la fecha va como ?d= (el # no viaja dentro de intent://)
+  // sin "package": Android abre el navegador predeterminado o muestra «Abrir con…» para elegir
+  const intento = "intent://" + destino.replace(/^https?:\/\//, "") +
+    "#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=" +
+    encodeURIComponent(destino) + ";end";
+  // varios caminos, porque cada visor maneja los enlaces a su manera
+  $("abrirChrome").href = destino;
+  $("abrirChrome").onclick = ev => {
+    ev.preventDefault();
+    let w = null; try { w = window.open(destino, "_blank"); } catch (e) {}
+    setTimeout(() => { location.href = intento; }, 250);
+    setTimeout(() => { location.href = "googlechrome://navigate?url=" + encodeURIComponent(destino); }, 900);
+  };
+  $("copiar").onclick = ev => {
+    ev.preventDefault();
+    const ok = () => { $("copiar").textContent = "¡Copiado! Pégalo en Chrome"; };
+    try { navigator.clipboard.writeText(destino).then(ok, () => prompt0()); } catch (e) { prompt0(); }
+    function prompt0() { const t = document.createElement("textarea"); t.value = destino; document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); ok(); } catch (e) { $("copiar").textContent = destino; } t.remove(); }
+  };
+  $("abrir").hidden = false;                                           // queda como respaldo si el salto automático no ocurre
+  let ya = false; try { ya = sessionStorage.getItem("cn-salto") === "1"; sessionStorage.setItem("cn-salto", "1"); } catch (e) {}
+  if (!ya) setTimeout(() => { location.href = intento; }, 300);
+})();
+</script>
+
+</body>
+</html>
