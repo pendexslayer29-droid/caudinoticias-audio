@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CAUDINOTICIAS en audio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+html,body{margin:0}
+[hidden]{display:none!important}
+/* Una columna: franja de reproducción fija arriba (un toque para escuchar) y la lista de noticias con su minuto debajo. */
+:root{
+  --bg:#F3F6F2; --card:#FFFFFF; --fg:#1C2A23; --muted:#5D6B63; --line:#DCE5DE;
+  --verde:#143D2F; --verde2:#1E5A45; --oro:#C99A1A; --menta:#E3EFE6; --activo:#FFF6DA; --sobre-verde:#FFFFFF;
+  --f-display:"Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body:"Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1814; --card:#15221C; --fg:#E5EEE8; --muted:#9DB0A5; --line:#24352C;
+  --verde:#8CC9A2; --verde2:#6FB58A; --oro:#F0C14E; --menta:#1B2E25; --activo:#2B2A1A; --sobre-verde:#0E1814; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1814; --card:#15221C; --fg:#E5EEE8; --muted:#9DB0A5; --line:#24352C;
+  --verde:#8CC9A2; --verde2:#6FB58A; --oro:#F0C14E; --menta:#1B2E25; --activo:#2B2A1A; --sobre-verde:#0E1814; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);line-height:1.5;font-size:16px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 32px}
+main{max-width:600px;margin:0 auto;display:grid;gap:14px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.marca{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--verde)}
+.marca span{color:var(--oro)}
+.marca small{font-weight:500;font-size:.85rem;color:var(--muted)}
+.fecha{font-size:.85rem;font-weight:500;color:var(--muted);background:var(--menta);padding:4px 12px;border-radius:999px}
+
+.player{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px;
+  position:sticky;top:max(8px,env(safe-area-inset-top,0px));z-index:5}
+.fila{display:flex;align-items:center;gap:14px}
+.info{min-width:0;flex:1}
+.seccion{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--verde2)}
+.titulo{font-family:var(--f-display);font-weight:600;font-size:1.02rem;line-height:1.3;margin:0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+.play{width:60px;height:60px;flex:none;border-radius:50%;background:var(--verde);color:var(--sobre-verde);display:grid;place-items:center}
+.play svg{width:28px;height:28px}
+.ctrl{display:flex;gap:8px;flex:none}
+.redondo{width:42px;height:42px;border-radius:50%;background:var(--menta);color:var(--verde);display:grid;place-items:center}
+.redondo svg{width:20px;height:20px}
+svg{fill:currentColor}
+.barra{height:8px;background:var(--menta);border-radius:999px;overflow:hidden;cursor:pointer;touch-action:none}
+.barra i{display:block;height:100%;width:0;background:var(--oro);border-radius:999px}
+.tiempos{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;justify-content:space-between}
+
+h2{font-size:.85rem;font-weight:600;color:var(--muted);margin:4px 0 0;letter-spacing:.05em;text-transform:uppercase}
+ol{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+li + li{border-top:1px solid var(--line)}
+li button{width:100%;text-align:left;display:grid;grid-template-columns:3.2em 1fr;gap:12px;padding:14px 16px;align-items:start}
+li .m{font-size:.85rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+li .t{min-width:0;font-size:1.02rem;line-height:1.4}
+li .s{display:block;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--verde2);margin-bottom:2px}
+li[aria-current="true"] button{background:var(--activo)}
+li[aria-current="true"] .m{color:var(--oro)}
+.dias{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.dias a{flex:none;font-size:.78rem;font-weight:500;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);text-decoration:none;white-space:nowrap}
+.dias a[aria-current="true"]{background:var(--verde);border-color:var(--verde);color:var(--sobre-verde)}
+.abrir{display:flex;align-items:center;gap:6px;background:var(--activo);border:1px solid var(--oro);border-radius:10px;padding:5px 8px}
+.abrir p{margin:0;flex:1;min-width:0;font-size:.74rem;line-height:1.2}
+.abrir a{font-size:.7rem;font-weight:600;padding:4px 9px;border-radius:999px;background:var(--verde);color:var(--sobre-verde);text-decoration:none;white-space:nowrap}
+.pie{font-size:.75rem;color:var(--muted);text-align:center;margin:0}
+.retomar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--activo);border-radius:12px;padding:10px 12px}
+.retomar p{margin:0;flex:1;min-width:10em;font-size:.92rem;font-weight:600}
+.retomar button{font-size:.85rem;font-weight:600;padding:8px 14px;border-radius:999px}
+.retomar .si{background:var(--verde);color:var(--sobre-verde)}
+.retomar .no{border:1px solid var(--line);color:var(--muted)}
+</style>
+<link rel="icon" href="portada.jpg">
+<link rel="alternate" type="application/rss+xml" title="CAUDINOTICIAS en audio" href="feed.xml">
+<meta property="og:title" content="CAUDINOTICIAS en audio">
+<meta property="og:image" content="portada.jpg">
+
+
+</head>
+<body>
+<main>
+  <header>
+    <div class="marca">CAUDI<span>NOTICIAS</span> <small>en audio</small></div>
+    <div class="fecha" id="fecha"></div>
+  </header>
+
+  <div class="abrir" id="abrir" hidden>
+    <p><b>¿Pantalla apagada?</b> Ábrelo en Chrome</p>
+    <a id="abrirChrome" href="#" target="_blank" rel="noopener">Abrir</a>
+    <a id="copiar" href="#" style="background:var(--menta);color:var(--verde)">Copiar enlace</a>
+  </div>
+  <section class="player" aria-label="Reproductor">
+    <div class="fila">
+      <button class="play" id="play" aria-label="Escuchar"><svg viewBox="0 0 24 24" id="ico"><path d="M8 5v14l11-7z"/></svg></button>
+      <div class="info">
+        <div class="seccion" id="sec">Toca para escuchar</div>
+        <p class="titulo" id="tit"></p>
+      </div>
+      <div class="ctrl">
+        <button class="redondo" id="ant" aria-label="Noticia anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
+        <button class="redondo" id="sig" aria-label="Noticia siguiente"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+      </div>
+    </div>
+    <div class="barra" id="barra" aria-label="Avance"><i id="avance"></i></div>
+    <div class="tiempos"><span id="t1">0:00</span><span id="t2"></span></div>
+    <div class="retomar" id="retomar" hidden>
+      <p id="retomarTxt"></p>
+      <button class="si" id="seguir">Continuar</button>
+      <button class="no" id="inicio">Empezar de nuevo</button>
+    </div>
+  </section>
+
+  <h2>En esta edición</h2>
+  <ol id="lista"></ol>
+  <h2>Ediciones anteriores</h2>
+  <nav class="dias" id="dias" aria-label="Ediciones"></nav>
+  <p class="pie">SIMFA – Sistema de Monitoreo de Fuentes Abiertas<br>Desarrollado por Jorge Luis Jiménez Aguilar con asistencia de IA<br>Uso referencial: verificar en la fuente.</p>
+</main>
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+const D = {"dias": {"2026-11-15": {"fecha": "Domingo 15 de noviembre de 2026", "corta": "Dom 15 nov", "audio": "audio/2026-11-15.mp3?v=1794752327", "duracion": 673.0, "capitulos": [{"inicio": 0.0, "sec": "Inicio", "titulo": "Presentación"}, {"inicio": 30.34, "sec": "Lo último del fin de semana", "titulo": "Corte Suprema declara prescrita la acción penal contra el exministro Walter Ayala por presuntos ascensos irregulares"}, {"inicio": 87.64, "sec": "Lo último del fin de semana", "titulo": "La Victoria: adolescente de 14 años es atacado a balazos y permanece con pronóstico reservado"}, {"inicio": 126.24, "sec": "Lo último del fin de semana", "titulo": "Carabayllo: detienen a dos presuntos atacantes de una cancha deportiva tras ser embestidos por el dueño"}, {"inicio": 171.3, "sec": "Lo último del fin de semana", "titulo": "Declaran en reorganización el Ministerio de Justicia y Derechos Humanos por 120 días (D.S. N.° 018-2026-JUS)"}, {"inicio": 212.92, "sec": "Lo último del fin de semana", "titulo": "MEF transfiere S/ 3,3 millones a Defensa para el centro de inteligencia del Comando Unificado (D.S. N.° 254-2026-EF)"}, {"inicio": 267.4, "sec": "La semana", "titulo": "Lo más saltante de la semana"}, {"inicio": 349.11, "sec": "Ciencia y espacio", "titulo": "SpaceX atrapa por primera vez su nave Starship al volver de órbita"}, {"inicio": 397.51, "sec": "Tecnología y seguridad", "titulo": "Fiscalía alerta sobre estafas con entradas y accesos a las actividades del papa León XIV"}, {"inicio": 448.13, "sec": "Salud y bienestar", "titulo": "Diabetes: el Minsa pide controles preventivos y recuerda las señales de alerta"}, {"inicio": 514.67, "sec": "El Perú que sorprende", "titulo": "Escolares peruanos ganan cuatro medallas en la Olimpiada Mundial Abierta de Astronomía en Rusia"}, {"inicio": 561.8, "sec": "Para hoy domingo", "titulo": "Mundial de Surf: hoy continúa la competencia en Punta Rocas, con peruanos en carrera"}, {"inicio": 598.43, "sec": "Amenidades", "titulo": "¿Sabías que…?"}, {"inicio": 616.36, "sec": "Indicadores", "titulo": "El dólar en la semana"}, {"inicio": 635.18, "sec": "Servicios", "titulo": "Cortes programados de luz y agua"}, {"inicio": 647.61, "sec": "Cierre", "titulo": "Despedida"}], "tipo": "dominical", "bytes": 5384493}, "2026-11-16": {"fecha": "Lunes 16 de noviembre de 2026", "corta": "Lun 16 nov", "audio": "audio/2026-11-16.mp3?v=1794833895", "duracion": 614.9, "capitulos": [{"inicio": 0.0, "sec": "Inicio", "titulo": "Presentación"}, {"inicio": 21.76, "sec": "Criminalidad y operativos policiales", "titulo": "Ate: PNP detiene a cuatro presuntos integrantes de «Los Faites de Huaycán», investigados por sicariato"}, {"inicio": 67.76, "sec": "Criminalidad y operativos policiales", "titulo": "San Martín de Porres: joven venezolana muere tras ser atacada a balazos frente a su vivienda"}, {"inicio": 108.72, "sec": "Normativa con incidencia policial", "titulo": "MEF declara en reorganización al OECE por 90 días (D.S. N.° 256-2026-EF)"}, {"inicio": 159.27, "sec": "Normativa con incidencia policial", "titulo": "Sunat da facilidades tributarias a sectores afectados por El Niño"}, {"inicio": 202.55, "sec": "Normativa con incidencia policial", "titulo": "Ingreso gratuito al Santuario Histórico de Machupicchu hasta el 31 de diciembre"}, {"inicio": 244.33, "sec": "Orden interno y coyuntura política", "titulo": "Papa León XIV cierra hoy su visita con misa en Las Palmas y despedida en el Callao"}, {"inicio": 289.14, "sec": "Orden interno y coyuntura política", "titulo": "En Pucallpa, el papa denuncia asesinatos de líderes indígenas, narcotráfico y contaminación en la Amazonía"}, {"inicio": 330.36, "sec": "Orden interno y coyuntura política", "titulo": "Keiko Fujimori partió a China y Japón; mañana se reúne con Xi Jinping en Shenzhen"}, {"inicio": 368.0, "sec": "Orden interno y coyuntura política", "titulo": "López Aliaga llama «jurado de porquería» al JNE y advierte que convocará a sus seguidores"}, {"inicio": 412.94, "sec": "Orden interno y coyuntura política", "titulo": "Piura: JNE ordena recontar actas siniestradas de 23 mesas para definir la segunda vuelta regional"}, {"inicio": 453.22, "sec": "Internacional", "titulo": "APEC Shenzhen: Xi, Trump y Putin tendrán su primera reunión conjunta en la cumbre a la que asiste el Perú"}, {"inicio": 492.57, "sec": "Clima", "titulo": "Senamhi: vientos fuertes en la costa centro y sur del 16 al 18 de noviembre"}, {"inicio": 527.2, "sec": "Indicadores", "titulo": "El dólar"}, {"inicio": 557.91, "sec": "Servicios", "titulo": "Cortes programados de luz y agua"}, {"inicio": 589.5, "sec": "Cierre", "titulo": "Despedida"}], "tipo": "diaria", "bytes": 4919661}, "2026-11-17": {"fecha": "Martes 17 de noviembre de 2026", "corta": "Mar 17 nov", "audio": "audio/2026-11-17.mp3?v=1794920141", "duracion": 687.8, "capitulos": [{"inicio": 0.0, "sec": "Inicio", "titulo": "Presentación"}, {"inicio": 21.67, "sec": "Corrupción de funcionarios", "titulo": "Cusco: Sala ratifica siete años de prisión para el exgobernador Jorge Acurio por colusión y ordena su captura"}, {"inicio": 76.35, "sec": "Corrupción de funcionarios", "titulo": "Exministro del Interior Juan Carrasco Millones es condenado a 2 años y 7 meses de prisión suspendida por falsedad genérica"}, {"inicio": 121.07, "sec": "Criminalidad y operativos policiales", "titulo": "Villa El Salvador: detienen a tres presuntos asaltantes y recuperan más de 3200 dólares"}, {"inicio": 168.45, "sec": "Criminalidad y operativos policiales", "titulo": "Cusco: nueve meses de prisión preventiva para hombre investigado por presunto feminicidio en Wánchaq"}, {"inicio": 207.29, "sec": "Normativa con incidencia policial", "titulo": "Sunarp crea registro único de validación de identidad para acceder a servicios gratuitos como «Vehículos a mi Nombre» (Res. N.° 00266-2026-SUNARP/SN)"}, {"inicio": 270.94, "sec": "Normativa con incidencia policial", "titulo": "El Niño: Sunass aprueba disposiciones extraordinarias de supervisión a prestadores de agua y saneamiento (Res. N.° 048-2026-SUNASS-CD)"}, {"inicio": 319.2, "sec": "Orden interno y coyuntura política", "titulo": "Hijo del ministro de Salud participó en una reunión con la presidenta Keiko Fujimori en Palacio el 13 de noviembre"}, {"inicio": 374.15, "sec": "Orden interno y coyuntura política", "titulo": "Cancillería admite fallas en la última misa del papa y anuncia que se determinarán responsabilidades por contratos de más de S/ 11 millones"}, {"inicio": 415.96, "sec": "Orden interno y coyuntura política", "titulo": "Piura: JNE recuenta hoy a las 15:00, en su sede Nazca, los votos de 23 mesas de San Juan de Bigote"}, {"inicio": 497.46, "sec": "Orden interno y coyuntura política", "titulo": "Paro de carga pesada: acatamiento parcial en Junín en el primer día; también se sintió en Huancavelica y Huánuco"}, {"inicio": 541.38, "sec": "Orden interno y coyuntura política", "titulo": "Renovación Popular pide al JNE reconsiderar la decisión de no reconocer a López Aliaga como alcalde de Lima; anuncia amparo si no prospera"}, {"inicio": 589.48, "sec": "Internacional", "titulo": "Fujimori se reúne con Xi Jinping en Shenzhen; China aportará US$ 22,5 millones para afrontar El Niño"}, {"inicio": 633.54, "sec": "Servicios", "titulo": "Cortes programados de luz y agua"}, {"inicio": 663.83, "sec": "Cierre", "titulo": "Despedida"}], "tipo": "diaria", "bytes": 5503149}, "2026-11-18": {"fecha": "Miércoles 18 de noviembre de 2026", "corta": "Mié 18 nov", "audio": "audio/2026-11-18.mp3?v=1795006553", "duracion": 565.6, "capitulos": [{"inicio": 0.0, "sec": "Inicio", "titulo": "Presentación"}, {"inicio": 22.28, "sec": "Corrupción de funcionarios", "titulo": "Ministerio Público abre investigación preliminar contra la procuradora general del Estado por presunto abuso de autoridad contra Amado Enco"}, {"inicio": 77.71, "sec": "Corrupción de funcionarios", "titulo": "Legisladores piden citar o interpelar al canciller Carlos Espá por las fallas en la misa del papa en Las Palmas"}, {"inicio": 134.3, "sec": "Corrupción de funcionarios", "titulo": "Diputado Víctor Piñán pide a la PCM y al Minedu información sobre el rol de Allan Dyer, hijo del ministro de Salud"}, {"inicio": 187.41, "sec": "Criminalidad y operativos policiales", "titulo": "Jicamarca: chofer de la empresa Los Mandarinos muere tras ser atacado a balazos por dos supuestos pasajeros"}, {"inicio": 237.72, "sec": "Criminalidad y operativos policiales", "titulo": "Chorrillos: atacan a balazos a un mototaxista de 53 años en el A. H. Miyashiro"}, {"inicio": 280.65, "sec": "Criminalidad y operativos policiales", "titulo": "La Perla: disparan contra un camión compactador de basura dentro de la cochera municipal"}, {"inicio": 317.98, "sec": "Criminalidad y operativos policiales", "titulo": "San Borja: detienen a tres jóvenes que huyeron de una tienda de tecnología al llegar la PNP y el Serenazgo"}, {"inicio": 361.75, "sec": "Sector Interior e institucional", "titulo": "Ministro Astudillo destaca a la PNP tras desplegar más de 37 000 agentes durante la visita del papa León XIV"}, {"inicio": 409.95, "sec": "Orden interno y coyuntura política", "titulo": "Paro de carga pesada: en su segundo día bloquearon tramos de la Carretera Central en Huánuco y la Panamericana Norte en Casma"}, {"inicio": 470.89, "sec": "Internacional", "titulo": "APEC Shenzhen: Keiko Fujimori y Claudia Sheinbaum prevén su primer encuentro tras restablecer relaciones Perú-México"}, {"inicio": 535.13, "sec": "Efemérides", "titulo": "Hoy se conmemora · Un día como hoy"}, {"inicio": 541.67, "sec": "Cierre", "titulo": "Despedida"}], "tipo": "diaria", "bytes": 4525869}, "2026-11-19": {"fecha": "Jueves 19 de noviembre de 2026", "corta": "Jue 19 nov", "audio": "audio/2026-11-19.mp3?v=1795093761", "duracion": 980.1, "capitulos": [{"inicio": 0.0, "sec": "Inicio", "titulo": "Presentación"}, {"inicio": 21.0, "sec": "Corrupción de funcionarios", "titulo": "Cancillería contrató más de S/ 75 millones para los eventos del papa León XIV; Espá anuncia investigación y sanciones a empresas por fallas"}, {"inicio": 83.32, "sec": "Corrupción de funcionarios", "titulo": "Sobrino de Jorge Nieto trabaja en el despacho del presidente de la Cámara de Diputados, Óscar Reto, con un sueldo de S/ 8310"}, {"inicio": 131.84, "sec": "Corrupción de funcionarios", "titulo": "Pronabi subastará 106 joyas y relojes de lujo de Vladimiro Montesinos el 27 y 30 de noviembre"}, {"inicio": 182.88, "sec": "Criminalidad y operativos policiales", "titulo": "Villa María del Triunfo: hombre muere tras ser atacado a balazos mientras colocaba velas donde murió su hijo hace un año y tres meses"}, {"inicio": 227.86, "sec": "Criminalidad y operativos policiales", "titulo": "Chiclayo: PNP e Interpol capturan a venezolano de 25 años requerido por Chile por presunto homicidio"}, {"inicio": 277.43, "sec": "Criminalidad y operativos policiales", "titulo": "Villa María del Triunfo: Depincri detiene a alias «Guerrerito», investigado por la muerte del suboficial PNP Miguel Ángel Huincha"}, {"inicio": 325.39, "sec": "Criminalidad y operativos policiales", "titulo": "San Juan de Miraflores: hombre de 32 años muere atacado a balazos; había sobrevivido a otro ataque hace un mes"}, {"inicio": 363.57, "sec": "Criminalidad y operativos policiales", "titulo": "Callao: adolescente de 17 años herida en ataque armado contra una pollería; PNP detiene a dos tras persecución"}, {"inicio": 409.46, "sec": "Criminalidad y operativos policiales", "titulo": "La Victoria: tras persecución y balacera, PNP detiene a dos presuntos implicados en el ataque al adolescente de 14 años"}, {"inicio": 459.55, "sec": "Criminalidad y operativos policiales", "titulo": "Callao: mototaxista muere atacado a balazos por sus pasajeros en la Ciudadela Chalaca"}, {"inicio": 494.22, "sec": "Normativa con incidencia policial", "titulo": "El Niño: Minem declara en emergencia por hasta ocho meses las actividades de hidrocarburos ligadas al abastecimiento de combustibles (R.M. N.° 490-2026-MINEM/DM)"}, {"inicio": 559.08, "sec": "Normativa con incidencia policial", "titulo": "Designan a Arturo Williams García Villacorta como presidente del consejo directivo de la Caja de Pensiones Militar-Policial (R.S. N.° 118-2026-DE)"}, {"inicio": 602.11, "sec": "Normativa con incidencia policial", "titulo": "ERM 2026: JNE declara conformes las actas de proclamación de resultados emitidas por los jurados electorales especiales (Res. N.° 4726-2026-JNE)"}, {"inicio": 662.62, "sec": "Orden interno y coyuntura política", "titulo": "Paro de carga pesada cierra su tercer día con bloqueos en Huánuco, Junín, Huancavelica, Pasco, Ucayali y Áncash, y sin acuerdo con el MTC"}, {"inicio": 722.45, "sec": "Orden interno y coyuntura política", "titulo": "Huánuco: mercados Central y Modelo cierran en el último día del paro; tránsito se normaliza en Ambo"}, {"inicio": 772.88, "sec": "Internacional", "titulo": "China donará otros 22 millones de dólares para construir en el Perú un centro de monitoreo inteligente de seguridad ciudadana"}, {"inicio": 814.92, "sec": "Internacional", "titulo": "En APEC, Fujimori pide a las economías miembro apoyar al Perú frente a El Niño; mañana se reúne en Tokio con Sanae Takaichi"}, {"inicio": 853.47, "sec": "Indicadores", "titulo": "El dólar"}, {"inicio": 864.61, "sec": "Servicios", "titulo": "Cortes programados de luz y agua"}, {"inicio": 944.04, "sec": "Efemérides", "titulo": "Hoy se conmemora · Un día como hoy"}, {"inicio": 954.72, "sec": "Cierre", "titulo": "Despedida"}], "tipo": "diaria", "bytes": 7841325}, "2026-11-20": {"fecha": "Viernes 20 de noviembre de 2026", "corta": "Vie 20 nov", "audio": "audio/2026-11-20.mp3?v=1795179417", "duracion": 822.5, "capitulos": [{"inicio": 0.0, "sec": "Inicio", "titulo": "Presentación"}, {"inicio": 21.12, "sec": "Corrupción de funcionarios", "titulo": "Poder Judicial archiva una de las investigaciones contra el exjuez supremo César Hinostroza"}, {"inicio": 74.12, "sec": "Corrupción de funcionarios", "titulo": "Puno: Fiscalía Anticorrupción reabre investigación por presunto peculado contra candidata a vicegobernadora de Ahora Nación"}, {"inicio": 131.35, "sec": "Corrupción de funcionarios", "titulo": "Galarreta confirma que Allan Dyer, hijo del ministro de Salud, recoge información en los ministerios y dice que no cobra del Estado"}, {"inicio": 176.8, "sec": "Criminalidad y operativos policiales", "titulo": "Ecuador: capturan a alias «Jolín», presunto cabecilla de la organización criminal La Nueva Jauría"}, {"inicio": 229.92, "sec": "Criminalidad y operativos policiales", "titulo": "Magdalena del Mar: dos policías y un civil detenidos tras rescate de empresario joyero"}, {"inicio": 276.49, "sec": "Criminalidad y operativos policiales", "titulo": "Lince: trabajadora de salón de belleza muere tras ser atacada a balazos"}, {"inicio": 316.5, "sec": "Criminalidad y operativos policiales", "titulo": "Lurín: PNP rescata a universitaria captada en un falso colectivo en la Panamericana Sur"}, {"inicio": 361.19, "sec": "Criminalidad y operativos policiales", "titulo": "Villa María del Triunfo: PNP señala al exactor Ronny Shapiama como autor del disparo contra el suboficial Huincha"}, {"inicio": 414.67, "sec": "Criminalidad y operativos policiales", "titulo": "Cusco y Lima: Dircote detiene a los artistas Pedro Mo y Brenda Jah en investigación fiscal por presunta afiliación terrorista"}, {"inicio": 465.91, "sec": "Criminalidad y operativos policiales", "titulo": "San Martín de Porres: hallan a un hombre muerto a balazos en zona de cultivo de Chuquitanta"}, {"inicio": 497.76, "sec": "Normativa con incidencia policial", "titulo": "Prorrogan por 60 días el estado de emergencia en distritos del Vraem y el eje energético de Camisea (D.S. N.° 152-2026-PCM)"}, {"inicio": 550.31, "sec": "Normativa con incidencia policial", "titulo": "Consejo de Ministros aprueba decretos sobre penales y criminalidad: Defensa construirá cárceles y se crea un registro de presuntas organizaciones criminales con prácticas terroristas"}, {"inicio": 594.42, "sec": "Orden interno y coyuntura política", "titulo": "Segunda elección regional del 6 de diciembre: Reniec admite el DNI de menor de edad y prorroga los DNI caducos para votar"}, {"inicio": 645.05, "sec": "Internacional", "titulo": "En Tokio, Keiko Fujimori se reúne con la primera ministra Sanae Takaichi y agradece el apoyo japonés frente a El Niño"}, {"inicio": 694.41, "sec": "Clima", "titulo": "El Niño: alertan lluvias de fuerte a extrema intensidad en Tumbes y Piura hasta hoy"}, {"inicio": 732.42, "sec": "Indicadores", "titulo": "El dólar"}, {"inicio": 743.54, "sec": "Servicios", "titulo": "Cortes programados de luz y agua"}, {"inicio": 785.7, "sec": "Efemérides", "titulo": "Hoy se conmemora · Un día como hoy"}, {"inicio": 797.13, "sec": "Cierre", "titulo": "Despedida"}], "tipo": "diaria", "bytes": 6580653}, "2026-11-21": {"fecha": "Sábado 21 de noviembre de 2026", "corta": "Sáb 21 nov", "audio": "audio/2026-11-21.mp3?v=1795265736", "duracion": 809.5, "capitulos": [{"inicio": 0.0, "sec": "Inicio", "titulo": "Presentación"}, {"inicio": 24.27, "sec": "Corrupción de funcionarios", "titulo": "Caso «Los Herméticos del Caudal»: Fiscalía y PNP allanan sedes de la SBS y la Sucamec por presunta negociación incompatible"}, {"inicio": 92.11, "sec": "Corrupción de funcionarios", "titulo": "Contraloría advirtió un mes antes de la visita del papa deficiencias en las contrataciones de la Cancillería, según La República"}, {"inicio": 145.82, "sec": "Corrupción de funcionarios", "titulo": "Presentan moción de interpelación contra el canciller Carlos Espá con un pliego de 48 preguntas por las fallas en la misa del papa"}, {"inicio": 202.56, "sec": "Corrupción de funcionarios", "titulo": "PPK viaja a Estados Unidos tras el archivo definitivo de su investigación por presunto financiamiento ilícito de campaña"}, {"inicio": 252.77, "sec": "Criminalidad y operativos policiales", "titulo": "Lima, Ica, La Libertad y Lambayeque: PNP y Fiscalía desarticulan la presunta banda criminal «Los Trinitarios de Santa Rosa»"}, {"inicio": 317.15, "sec": "Criminalidad y operativos policiales", "titulo": "Trujillo: PNP interviene en Miramar a joven de 24 años con dos artefactos explosivos y municiones"}, {"inicio": 365.46, "sec": "Criminalidad y operativos policiales", "titulo": "Arequipa: Divincri detiene en el Terrapuerto a pasajero con 36 paquetes de marihuana"}, {"inicio": 415.51, "sec": "Criminalidad y operativos policiales", "titulo": "Áncash: dictan 18 meses de prisión preventiva a Adrián Solís Ruiz, investigado por la muerte de la candidata Susy Aponte"}, {"inicio": 466.14, "sec": "Criminalidad y operativos policiales", "titulo": "Pueblo Libre: hombre muere tras recibir un disparo en el límite con Magdalena del Mar"}, {"inicio": 515.54, "sec": "Sector Interior e institucional", "titulo": "Ecuador entrega a alias «Jolín» en Tumbes; el ministro Astudillo lo recibe y es trasladado a Lima"}, {"inicio": 569.38, "sec": "Normativa con incidencia policial", "titulo": "Prorrogan por 60 días el estado de emergencia en Trujillo, Virú y Chepén (D.S. N.° 154-2026-PCM)"}, {"inicio": 628.85, "sec": "Normativa con incidencia policial", "titulo": "Publican decretos legislativos que encargan a Defensa la infraestructura penitenciaria y crean un registro de presuntas organizaciones criminales con prácticas terroristas"}, {"inicio": 684.11, "sec": "Normativa con incidencia policial", "titulo": "Gobierno dispone la modernización del INPE (D. Leg. N.° 1747)"}, {"inicio": 725.3, "sec": "Indicadores", "titulo": "El dólar"}, {"inicio": 736.47, "sec": "Servicios", "titulo": "Cortes programados de luz y agua"}, {"inicio": 771.12, "sec": "Efemérides", "titulo": "Hoy se conmemora · Un día como hoy"}, {"inicio": 784.09, "sec": "Cierre", "titulo": "Despedida"}], "tipo": "diaria", "bytes": 6476397}}};
+const $ = id => document.getElementById(id);
+const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+const A = $("audio");
+let actual = -1;
+const claves = Object.keys(D.dias).sort().reverse();
+let F = claves[0], E = D.dias[F], C = E.capitulos;
+let listo = false, pendiente = null, urlBlob = null, pedido = 0;
+function cargar() {
+  const mio = ++pedido; listo = false; pendiente = null;
+  A.src = E.audio; A.load();                       // empieza a sonar de inmediato, de corrido
+  $("t2").textContent = "cargando…";
+  fetch(E.audio).then(r => { if (!r.ok) throw 0; return r.blob(); }).then(b => {
+    if (mio !== pedido) return;
+    const t = pendiente ?? A.currentTime, sonaba = !A.paused;
+    if (urlBlob) URL.revokeObjectURL(urlBlob);
+    urlBlob = URL.createObjectURL(b);
+    A.src = urlBlob; listo = true;
+    A.addEventListener("loadedmetadata", () => { A.currentTime = t; pendiente = null; pintar(); if (sonaba) A.play().catch(() => {}); }, { once: true });
+  }).catch(() => { listo = true; });
+}
+function saltar(t) {
+  t = Math.max(0, Math.min(dur() - 0.5, t));
+  if (!listo) { pendiente = t; actual = -1; pintarEn(t); return; }
+  A.currentTime = t; pintar();
+}
+function pintarEn(t) { const k = cap(t); actual = k; $("sec").textContent = C[k].sec; $("tit").textContent = C[k].titulo;
+  document.querySelectorAll("#lista li").forEach((li, i) => li.setAttribute("aria-current", i === k)); }
+function elegir() {
+  const h = location.hash.replace("#d", "") || new URLSearchParams(location.search).get("d") || "";
+  F = D.dias[h] ? h : claves[0]; E = D.dias[F]; C = E.capitulos; actual = -1;
+  cargar();
+  $("fecha").textContent = E.fecha.replace(/ de \d{4}$/, "");
+  $("lista").innerHTML = C.map((c, i) =>
+    `<li><button data-i="${i}"><span class="m">${mmss(c.inicio)}</span><span class="t"><span class="s">${esc(c.sec)}</span>${esc(c.titulo)}</span></button></li>`).join("");
+  document.querySelectorAll("#lista button").forEach(b => b.onclick = () => ir(+b.dataset.i));
+  $("dias").innerHTML = claves.map(k => `<a href="#d${k}" aria-current="${k === F}">${esc(D.dias[k].corta)}</a>`).join("");
+  pintar();
+  ofrecer();
+}
+// avance guardado solo en este teléfono, por edición
+const clave = () => "cn-avance-" + F;
+function ofrecer() {
+  $("retomar").hidden = true;
+  let t = 0; try { t = +localStorage.getItem(clave()) || 0; } catch (e) {}
+  if (t > 10 && t < E.duracion - 30) {
+    $("retomarTxt").textContent = `¿Continuar desde ${mmss(t)}?`;
+    $("retomar").hidden = false;
+    $("seguir").onclick = () => { $("retomar").hidden = true; saltar(t); A.play().catch(() => {}); };
+    $("inicio").onclick = () => { $("retomar").hidden = true; saltar(0); A.play().catch(() => {}); };
+  }
+}
+let ultimoGuardado = 0;
+A.addEventListener("timeupdate", () => {
+  if (pendiente !== null || Math.abs(A.currentTime - ultimoGuardado) < 3) return;
+  ultimoGuardado = A.currentTime;
+  try { localStorage.setItem(clave(), String(A.currentTime)); } catch (e) {}
+});
+A.addEventListener("play", () => { $("retomar").hidden = true; });
+const mmss = s => { s = Math.max(0, Math.floor(s)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+const dur = () => (isFinite(A.duration) && A.duration) || E.duracion;
+const cap = t => { let k = 0; C.forEach((c, i) => { if (t + 0.3 >= c.inicio) k = i; }); return k; };
+
+
+function pintar() {
+  if (pendiente !== null) return;
+  const t = A.currentTime, k = cap(t);
+  $("avance").style.width = (100 * t / dur()) + "%";
+  $("t1").textContent = mmss(t); $("t2").textContent = "-" + mmss(dur() - t);
+  if (k !== actual) {
+    actual = k; $("sec").textContent = C[k].sec; $("tit").textContent = C[k].titulo;
+    document.querySelectorAll("#lista li").forEach((li, i) => li.setAttribute("aria-current", i === k));
+    if ("mediaSession" in navigator) navigator.mediaSession.metadata = new MediaMetadata({
+      title: C[k].titulo, artist: "CAUDINOTICIAS · " + C[k].sec, album: E.fecha,
+      artwork: [{ src: new URL("portada.jpg", location.href).href, sizes: "1400x1400", type: "image/jpeg" }] });
+  }
+}
+function icono() {
+  const on = !A.paused;
+  $("ico").innerHTML = on ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+  $("play").setAttribute("aria-label", on ? "Pausar" : "Escuchar");
+}
+function ir(k) { k = Math.max(0, Math.min(C.length - 1, k)); saltar(C[k].inicio); if (A.paused) A.play().catch(() => {}); }
+
+$("play").onclick = () => A.paused ? A.play().catch(() => {}) : A.pause();
+const ahora = () => pendiente ?? A.currentTime;
+$("ant").onclick = () => ir(ahora() - C[cap(ahora())].inicio > 3 ? cap(ahora()) : cap(ahora()) - 1);
+$("sig").onclick = () => ir(cap(ahora()) + 1);
+$("barra").onclick = e => { const r = e.currentTarget.getBoundingClientRect(); saltar(dur() * (e.clientX - r.left) / r.width); };
+A.addEventListener("timeupdate", pintar); A.addEventListener("play", icono); A.addEventListener("pause", icono);
+A.addEventListener("loadedmetadata", pintar);
+if ("mediaSession" in navigator) {
+  navigator.mediaSession.setActionHandler("previoustrack", () => $("ant").onclick());
+  navigator.mediaSession.setActionHandler("nexttrack", () => $("sig").onclick());
+  const ms = (a, f) => { try { navigator.mediaSession.setActionHandler(a, f); } catch (e) {} };
+  ms("play", () => A.play().catch(() => {}));
+  ms("pause", () => A.pause());
+  ms("seekbackward", d => saltar(A.currentTime - ((d && d.seekOffset) || 15)));
+  ms("seekforward", d => saltar(A.currentTime + ((d && d.seekOffset) || 15)));
+  ms("seekto", d => saltar(d.seekTime));
+  const posicion = () => { try { if (isFinite(A.duration)) navigator.mediaSession.setPositionState({ duration: A.duration, position: Math.min(A.currentTime, A.duration), playbackRate: A.playbackRate }); } catch (e) {} };
+  A.addEventListener("loadedmetadata", posicion); A.addEventListener("seeked", posicion); A.addEventListener("play", posicion);
+  A.addEventListener("play", () => { navigator.mediaSession.playbackState = "playing"; });
+  A.addEventListener("pause", () => { navigator.mediaSession.playbackState = "paused"; });
+}
+window.addEventListener("hashchange", elegir);
+elegir();
+
+// navegador interno (visor de PDF, apps de mensajería o de Claude): pasar solo al navegador del teléfono
+(function () {
+  const ua = navigator.userAgent || "";
+  const android = /Android/i.test(ua);
+  const interno = (android && /; wv\)/.test(ua)) || /FBAN|FBAV|Instagram|Line\/|WhatsApp|GSA\//i.test(ua);
+  if (!interno || !android) return;
+  const destino = location.origin + location.pathname + "?d=" + F;      // la fecha va como ?d= (el # no viaja dentro de intent://)
+  // sin "package": Android abre el navegador predeterminado o muestra «Abrir con…» para elegir
+  const intento = "intent://" + destino.replace(/^https?:\/\//, "") +
+    "#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=" +
+    encodeURIComponent(destino) + ";end";
+  // varios caminos, porque cada visor maneja los enlaces a su manera
+  $("abrirChrome").href = destino;
+  $("abrirChrome").onclick = ev => {
+    ev.preventDefault();
+    let w = null; try { w = window.open(destino, "_blank"); } catch (e) {}
+    setTimeout(() => { location.href = intento; }, 250);
+    setTimeout(() => { location.href = "googlechrome://navigate?url=" + encodeURIComponent(destino); }, 900);
+  };
+  $("copiar").onclick = ev => {
+    ev.preventDefault();
+    const ok = () => { $("copiar").textContent = "¡Copiado! Pégalo en Chrome"; };
+    try { navigator.clipboard.writeText(destino).then(ok, () => prompt0()); } catch (e) { prompt0(); }
+    function prompt0() { const t = document.createElement("textarea"); t.value = destino; document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); ok(); } catch (e) { $("copiar").textContent = destino; } t.remove(); }
+  };
+  $("abrir").hidden = false;                                           // queda como respaldo si el salto automático no ocurre
+  let ya = false; try { ya = sessionStorage.getItem("cn-salto") === "1"; sessionStorage.setItem("cn-salto", "1"); } catch (e) {}
+  if (!ya) setTimeout(() => { location.href = intento; }, 300);
+})();
+</script>
+
+</body>
+</html>

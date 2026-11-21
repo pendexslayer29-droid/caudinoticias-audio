@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+ <channel>
+  <title>CAUDINOTICIAS en audio</title>
+  <link>https://pendexslayer29-droid.github.io/caudinoticias-audio/</link>
+  <atom:link href="https://pendexslayer29-droid.github.io/caudinoticias-audio/feed.xml" rel="self" type="application/rss+xml"/>
+  <language>es-pe</language>
+  <description>Boletín diario de noticias de fuentes abiertas: corrupción, seguridad y coyuntura nacional, para escuchar. SIMFA · Uso referencial.</description>
+  <itunes:author>SIMFA – Jorge Luis Jiménez Aguilar</itunes:author>
+  <itunes:image href="https://pendexslayer29-droid.github.io/caudinoticias-audio/portada.jpg"/>
+  <itunes:category text="News"><itunes:category text="Daily News"/></itunes:category>
+  <itunes:explicit>false</itunes:explicit>
+  <itunes:type>episodic</itunes:type>
+  <item>
+   <title>CAUDINOTICIAS – Sábado 21 de noviembre</title>
+   <description>0:00 Presentación
+0:24 Caso «Los Herméticos del Caudal»: Fiscalía y PNP allanan sedes de la SBS y la Sucamec por presunta negociación incompatible
+1:32 Contraloría advirtió un mes antes de la visita del papa deficiencias en las contrataciones de la Cancillería, según La República
+2:25 Presentan moción de interpelación contra el canciller Carlos Espá con un pliego de 48 preguntas por las fallas en la misa del papa
+3:22 PPK viaja a Estados Unidos tras el archivo definitivo de su investigación por presunto financiamiento ilícito de campaña
+4:12 Lima, Ica, La Libertad y Lambayeque: PNP y Fiscalía desarticulan la presunta banda criminal «Los Trinitarios de Santa Rosa»
+5:17 Trujillo: PNP interviene en Miramar a joven de 24 años con dos artefactos explosivos y municiones
+6:05 Arequipa: Divincri detiene en el Terrapuerto a pasajero con 36 paquetes de marihuana
+6:55 Áncash: dictan 18 meses de prisión preventiva a Adrián Solís Ruiz, investigado por la muerte de la candidata Susy Aponte
+7:46 Pueblo Libre: hombre muere tras recibir un disparo en el límite con Magdalena del Mar
+8:35 Ecuador entrega a alias «Jolín» en Tumbes; el ministro Astudillo lo recibe y es trasladado a Lima
+9:29 Prorrogan por 60 días el estado de emergencia en Trujillo, Virú y Chepén (D.S. N.° 154-2026-PCM)
+10:28 Publican decretos legislativos que encargan a Defensa la infraestructura penitenciaria y crean un registro de presuntas organizaciones criminales con prácticas terroristas
+11:24 Gobierno dispone la modernización del INPE (D. Leg. N.° 1747)
+12:05 El dólar
+12:16 Cortes programados de luz y agua
+12:51 Hoy se conmemora · Un día como hoy
+13:04 Despedida</description>
+   <enclosure url="https://pendexslayer29-droid.github.io/caudinoticias-audio/audio/2026-11-21.mp3" length="6476397" type="audio/mpeg"/>
+   <guid isPermaLink="false">caudinoticias-2026-11-21</guid>
+   <pubDate>Sat, 21 Nov 2026 08:30:00 -0500</pubDate>
+   <itunes:duration>809</itunes:duration>
+   <itunes:explicit>false</itunes:explicit>
+  </item>
+  <item>
+   <title>CAUDINOTICIAS – Viernes 20 de noviembre</title>
+   <description>0:00 Presentación
+0:21 Poder Judicial archiva una de las investigaciones contra el exjuez supremo César Hinostroza
+1:14 Puno: Fiscalía Anticorrupción reabre investigación por presunto peculado contra candidata a vicegobernadora de Ahora Nación
+2:11 Galarreta confirma que Allan Dyer, hijo del ministro de Salud, recoge información en los ministerios y dice que no cobra del Estado
+2:56 Ecuador: capturan a alias «Jolín», presunto cabecilla de la organización criminal La Nueva Jauría
+3:49 Magdalena del Mar: dos policías y un civil detenidos tras rescate de empresario joyero
+4:36 Lince: trabajadora de salón de belleza muere tras ser atacada a balazos
+5:16 Lurín: PNP rescata a universitaria captada en un falso colectivo en la Panamericana Sur
+6:01 Villa María del Triunfo: PNP señala al exactor Ronny Shapiama como autor del disparo contra el suboficial Huincha
+6:54 Cusco y Lima: Dircote detiene a los artistas Pedro Mo y Brenda Jah en investigación fiscal por presunta afiliación terrorista
+7:45 San Martín de Porres: hallan a un hombre muerto a balazos en zona de cultivo de Chuquitanta
+8:17 Prorrogan por 60 días el estado de emergencia en distritos del Vraem y el eje energético de Camisea (D.S. N.° 152-2026-PCM)
+9:10 Consejo de Ministros aprueba decretos sobre penales y criminalidad: Defensa construirá cárceles y se crea un registro de presuntas organizaciones criminales con prácticas terroristas
+9:54 Segunda elección regional del 6 de diciembre: Reniec admite el DNI de menor de edad y prorroga los DNI caducos para votar
+10:45 En Tokio, Keiko Fujimori se reúne con la primera ministra Sanae Takaichi y agradece el apoyo japonés frente a El Niño
+11:34 El Niño: alertan lluvias de fuerte a extrema intensidad en Tumbes y Piura hasta hoy
+12:12 El dólar
+12:23 Cortes programados de luz y agua
+13:05 Hoy se conmemora · Un día como hoy
+13:17 Despedida</description>
+   <enclosure url="https://pendexslayer29-droid.github.io/caudinoticias-audio/audio/2026-11-20.mp3" length="6580653" type="audio/mpeg"/>
+   <guid isPermaLink="false">caudinoticias-2026-11-20</guid>
+   <pubDate>Fri, 20 Nov 2026 08:30:00 -0500</pubDate>
+   <itunes:duration>822</itunes:duration>
+   <itunes:explicit>false</itunes:explicit>
+  </item>
+  <item>
+   <title>CAUDINOTICIAS – Jueves 19 de noviembre</title>
+   <description>0:00 Presentación
+0:21 Cancillería contrató más de S/ 75 millones para los eventos del papa León XIV; Espá anuncia investigación y sanciones a empresas por fallas
+1:23 Sobrino de Jorge Nieto trabaja en el despacho del presidente de la Cámara de Diputados, Óscar Reto, con un sueldo de S/ 8310
+2:11 Pronabi subastará 106 joyas y relojes de lujo de Vladimiro Montesinos el 27 y 30 de noviembre
+3:02 Villa María del Triunfo: hombre muere tras ser atacado a balazos mientras colocaba velas donde murió su hijo hace un año y tres meses
+3:47 Chiclayo: PNP e Interpol capturan a venezolano de 25 años requerido por Chile por presunto homicidio
+4:37 Villa María del Triunfo: Depincri detiene a alias «Guerrerito», investigado por la muerte del suboficial PNP Miguel Ángel Huincha
+5:25 San Juan de Miraflores: hombre de 32 años muere atacado a balazos; había sobrevivido a otro ataque hace un mes
+6:03 Callao: adolescente de 17 años herida en ataque armado contra una pollería; PNP detiene a dos tras persecución
+6:49 La Victoria: tras persecución y balacera, PNP detiene a dos presuntos implicados en el ataque al adolescente de 14 años
+7:39 Callao: mototaxista muere atacado a balazos por sus pasajeros en la Ciudadela Chalaca
+8:14 El Niño: Minem declara en emergencia por hasta ocho meses las actividades de hidrocarburos ligadas al abastecimiento de combustibles (R.M. N.° 490-2026-MINEM/DM)
+9:19 Designan a Arturo Williams García Villacorta como presidente del consejo directivo de la Caja de Pensiones Militar-Policial (R.S. N.° 118-2026-DE)
+10:02 ERM 2026: JNE declara conformes las actas de proclamación de resultados emitidas por los jurados electorales especiales (Res. N.° 4726-2026-JNE)
+11:02 Paro de carga pesada cierra su tercer día con bloqueos en Huánuco, Junín, Huancavelica, Pasco, Ucayali y Áncash, y sin acuerdo con el MTC
+12:02 Huánuco: mercados Central y Modelo cierran en el último día del paro; tránsito se normaliza en Ambo
+12:52 China donará otros 22 millones de dólares para construir en el Perú un centro de monitoreo inteligente de seguridad ciudadana
+13:34 En APEC, Fujimori pide a las economías miembro apoyar al Perú frente a El Niño; mañana se reúne en Tokio con Sanae Takaichi
+14:13 El dólar
+14:24 Cortes programados de luz y agua
+15:44 Hoy se conmemora · Un día como hoy
+15:54 Despedida</description>
+   <enclosure url="https://pendexslayer29-droid.github.io/caudinoticias-audio/audio/2026-11-19.mp3" length="7841325" type="audio/mpeg"/>
+   <guid isPermaLink="false">caudinoticias-2026-11-19</guid>
+   <pubDate>Thu, 19 Nov 2026 08:30:00 -0500</pubDate>
+   <itunes:duration>980</itunes:duration>
+   <itunes:explicit>false</itunes:explicit>
+  </item>
+  <item>
+   <title>CAUDINOTICIAS – Miércoles 18 de noviembre</title>
+   <description>0:00 Presentación
+0:22 Ministerio Público abre investigación preliminar contra la procuradora general del Estado por presunto abuso de autoridad contra Amado Enco
+1:17 Legisladores piden citar o interpelar al canciller Carlos Espá por las fallas en la misa del papa en Las Palmas
+2:14 Diputado Víctor Piñán pide a la PCM y al Minedu información sobre el rol de Allan Dyer, hijo del ministro de Salud
+3:07 Jicamarca: chofer de la empresa Los Mandarinos muere tras ser atacado a balazos por dos supuestos pasajeros
+3:57 Chorrillos: atacan a balazos a un mototaxista de 53 años en el A. H. Miyashiro
+4:40 La Perla: disparan contra un camión compactador de basura dentro de la cochera municipal
+5:17 San Borja: detienen a tres jóvenes que huyeron de una tienda de tecnología al llegar la PNP y el Serenazgo
+6:01 Ministro Astudillo destaca a la PNP tras desplegar más de 37 000 agentes durante la visita del papa León XIV
+6:49 Paro de carga pesada: en su segundo día bloquearon tramos de la Carretera Central en Huánuco y la Panamericana Norte en Casma
+7:50 APEC Shenzhen: Keiko Fujimori y Claudia Sheinbaum prevén su primer encuentro tras restablecer relaciones Perú-México
+8:55 Hoy se conmemora · Un día como hoy
+9:01 Despedida</description>
+   <enclosure url="https://pendexslayer29-droid.github.io/caudinoticias-audio/audio/2026-11-18.mp3" length="4525869" type="audio/mpeg"/>
+   <guid isPermaLink="false">caudinoticias-2026-11-18</guid>
+   <pubDate>Wed, 18 Nov 2026 08:30:00 -0500</pubDate>
+   <itunes:duration>565</itunes:duration>
+   <itunes:explicit>false</itunes:explicit>
+  </item>
+  <item>
+   <title>CAUDINOTICIAS – Martes 17 de noviembre</title>
+   <description>0:00 Presentación
+0:21 Cusco: Sala ratifica siete años de prisión para el exgobernador Jorge Acurio por colusión y ordena su captura
+1:16 Exministro del Interior Juan Carrasco Millones es condenado a 2 años y 7 meses de prisión suspendida por falsedad genérica
+2:01 Villa El Salvador: detienen a tres presuntos asaltantes y recuperan más de 3200 dólares
+2:48 Cusco: nueve meses de prisión preventiva para hombre investigado por presunto feminicidio en Wánchaq
+3:27 Sunarp crea registro único de validación de identidad para acceder a servicios gratuitos como «Vehículos a mi Nombre» (Res. N.° 00266-2026-SUNARP/SN)
+4:30 El Niño: Sunass aprueba disposiciones extraordinarias de supervisión a prestadores de agua y saneamiento (Res. N.° 048-2026-SUNASS-CD)
+5:19 Hijo del ministro de Salud participó en una reunión con la presidenta Keiko Fujimori en Palacio el 13 de noviembre
+6:14 Cancillería admite fallas en la última misa del papa y anuncia que se determinarán responsabilidades por contratos de más de S/ 11 millones
+6:55 Piura: JNE recuenta hoy a las 15:00, en su sede Nazca, los votos de 23 mesas de San Juan de Bigote
+8:17 Paro de carga pesada: acatamiento parcial en Junín en el primer día; también se sintió en Huancavelica y Huánuco
+9:01 Renovación Popular pide al JNE reconsiderar la decisión de no reconocer a López Aliaga como alcalde de Lima; anuncia amparo si no prospera
+9:49 Fujimori se reúne con Xi Jinping en Shenzhen; China aportará US$ 22,5 millones para afrontar El Niño
+10:33 Cortes programados de luz y agua
+11:03 Despedida</description>
+   <enclosure url="https://pendexslayer29-droid.github.io/caudinoticias-audio/audio/2026-11-17.mp3" length="5503149" type="audio/mpeg"/>
+   <guid isPermaLink="false">caudinoticias-2026-11-17</guid>
+   <pubDate>Tue, 17 Nov 2026 08:30:00 -0500</pubDate>
+   <itunes:duration>687</itunes:duration>
+   <itunes:explicit>false</itunes:explicit>
+  </item>
+  <item>
+   <title>CAUDINOTICIAS – Lunes 16 de noviembre</title>
+   <description>0:00 Presentación
+0:21 Ate: PNP detiene a cuatro presuntos integrantes de «Los Faites de Huaycán», investigados por sicariato
+1:07 San Martín de Porres: joven venezolana muere tras ser atacada a balazos frente a su vivienda
+1:48 MEF declara en reorganización al OECE por 90 días (D.S. N.° 256-2026-EF)
+2:39 Sunat da facilidades tributarias a sectores afectados por El Niño
+3:22 Ingreso gratuito al Santuario Histórico de Machupicchu hasta el 31 de diciembre
+4:04 Papa León XIV cierra hoy su visita con misa en Las Palmas y despedida en el Callao
+4:49 En Pucallpa, el papa denuncia asesinatos de líderes indígenas, narcotráfico y contaminación en la Amazonía
+5:30 Keiko Fujimori partió a China y Japón; mañana se reúne con Xi Jinping en Shenzhen
+6:08 López Aliaga llama «jurado de porquería» al JNE y advierte que convocará a sus seguidores
+6:52 Piura: JNE ordena recontar actas siniestradas de 23 mesas para definir la segunda vuelta regional
+7:33 APEC Shenzhen: Xi, Trump y Putin tendrán su primera reunión conjunta en la cumbre a la que asiste el Perú
+8:12 Senamhi: vientos fuertes en la costa centro y sur del 16 al 18 de noviembre
+8:47 El dólar
+9:17 Cortes programados de luz y agua
+9:49 Despedida</description>
+   <enclosure url="https://pendexslayer29-droid.github.io/caudinoticias-audio/audio/2026-11-16.mp3" length="4919661" type="audio/mpeg"/>
+   <guid isPermaLink="false">caudinoticias-2026-11-16</guid>
+   <pubDate>Mon, 16 Nov 2026 08:30:00 -0500</pubDate>
+   <itunes:duration>614</itunes:duration>
+   <itunes:explicit>false</itunes:explicit>
+  </item>
+  <item>
+   <title>CAUDINOTICIAS – Domingo 15 de noviembre (edición dominical)</title>
+   <description>0:00 Presentación
+0:30 Corte Suprema declara prescrita la acción penal contra el exministro Walter Ayala por presuntos ascensos irregulares
+1:27 La Victoria: adolescente de 14 años es atacado a balazos y permanece con pronóstico reservado
+2:06 Carabayllo: detienen a dos presuntos atacantes de una cancha deportiva tras ser embestidos por el dueño
+2:51 Declaran en reorganización el Ministerio de Justicia y Derechos Humanos por 120 días (D.S. N.° 018-2026-JUS)
+3:32 MEF transfiere S/ 3,3 millones a Defensa para el centro de inteligencia del Comando Unificado (D.S. N.° 254-2026-EF)
+4:27 Lo más saltante de la semana
+5:49 SpaceX atrapa por primera vez su nave Starship al volver de órbita
+6:37 Fiscalía alerta sobre estafas con entradas y accesos a las actividades del papa León XIV
+7:28 Diabetes: el Minsa pide controles preventivos y recuerda las señales de alerta
+8:34 Escolares peruanos ganan cuatro medallas en la Olimpiada Mundial Abierta de Astronomía en Rusia
+9:21 Mundial de Surf: hoy continúa la competencia en Punta Rocas, con peruanos en carrera
+9:58 ¿Sabías que…?
+10:16 El dólar en la semana
+10:35 Cortes programados de luz y agua
+10:47 Despedida</description>
+   <enclosure url="https://pendexslayer29-droid.github.io/caudinoticias-audio/audio/2026-11-15.mp3" length="5384493" type="audio/mpeg"/>
+   <guid isPermaLink="false">caudinoticias-2026-11-15</guid>
+   <pubDate>Sun, 15 Nov 2026 08:30:00 -0500</pubDate>
+   <itunes:duration>673</itunes:duration>
+   <itunes:explicit>false</itunes:explicit>
+  </item>
+ </channel>
+</rss>
